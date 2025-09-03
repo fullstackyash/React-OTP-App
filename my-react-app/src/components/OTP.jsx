@@ -63,6 +63,7 @@ function Otp({ otpLength = 4 }) {
     ref.current[nextFocus].focus();
   }
 
+  //Set the initial focus on the 1st Input on page load
   useEffect(() => {
     ref.current[0]?.focus();
   }, []);
