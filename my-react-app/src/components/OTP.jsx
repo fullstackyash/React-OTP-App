@@ -49,13 +49,17 @@ function Otp({ otpLength = 4 }) {
 
     const nextOtp = otpFields.slice();
 
-    for (let i = 0; i < digits.length; ++i) {
+    for (let i = 0; i < otpLength && digits.length; ++i) {
       nextOtp[i] = digits[i];
     }
 
-    setOtpFields(nextOtp);
+    //Remove Undefined values, to fix Character input
+    const newOtp = nextOtp.map(item => (item === undefined ? '' : item));
 
-    const nextFocus = digits.length < otpLength ? digits.length : otpLength;
+    setOtpFields(newOtp);
+
+    //Fix and set focus for digits more than otpLength
+    const nextFocus = digits.length < otpLength ? digits.length : otpLength - 1;
     ref.current[nextFocus].focus();
   }
 
