@@ -45,4 +45,10 @@
   height: 2rem;
   text-align: center;
   margin-right: 0.5rem;
+  border-radius: 0.25rem;
+}
+
+.otp-input.selected{
+  border-color: #007bff;
+  background-color: #e7f3ff;
 }

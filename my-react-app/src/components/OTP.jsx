@@ -5,6 +5,7 @@ import React, { useEffect, useRef, useState } from "react";
 function Otp({ otpLength = 4 }) {
   const [otpFields, setOtpFields] = useState(new Array(otpLength).fill(""));
   const ref = useRef([]);
+  const [isOtpSelected, setIsOtpSelected] = useState(false);
 
   function handleKeyDown(e, index) {
     const key = e.key;
@@ -16,6 +17,11 @@ function Otp({ otpLength = 4 }) {
       if (index > 0) ref.current[index - 1].focus();
     }
 
+    //Select all contents of all the inputs
+    if((e.ctrlKey || e.metaKey) && e.key === 'a'){
+        setIsOtpSelected(true);
+    }
+
     //Make the copy of OPT array
     const copyOtpFields = [...otpFields];
 
@@ -24,6 +30,14 @@ function Otp({ otpLength = 4 }) {
       setOtpFields(copyOtpFields);
 
       if (index > 0) ref.current[index - 1].focus();
+
+      //If all inputs selected, then clear all inputs on backspace press
+      if(isOtpSelected){
+        setOtpFields(new Array(otpLength).fill(""));
+        setIsOtpSelected(false);
+        ref.current[0]?.focus(); // Focus first input
+        return;
+      }
     }
 
     // Only single digit entries would be allowed
@@ -77,7 +91,7 @@ function Otp({ otpLength = 4 }) {
           type="text"
           value={value}
           maxLength={1}
-          className="otp-input"
+          className={`otp-input ${isOtpSelected ? 'selected' : ''}`}
           ref={(currentInput) => (ref.current[index] = currentInput)}
           onKeyDown={(e) => handleKeyDown(e, index)}
           onPaste={handlePaste}
